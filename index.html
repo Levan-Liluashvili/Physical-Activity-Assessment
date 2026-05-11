@@ -207,30 +207,30 @@
 
             <div class="graph-column">
                 <svg viewBox="0 0 450 300">
-                    <path d="M 50,20 L 90,180 L 90,250 L 50,250 Z" fill="#ff7f7f" />
-                    <path d="M 90,180 L 250,250 L 90,250 Z" fill="#ffca28" />
-                    <path d="M 250,250 L 420,250 L 420,245 Z" fill="#22cb5c" />
-                    
-                    <path d="M 50,20 C 80,180 150,240 420,250" fill="none" stroke="black" stroke-width="2" />
+    <polygon id="zone-red" points="" fill="#ff7f7f" />
+    <polygon id="zone-yellow" points="" fill="#ffca28" />
+    <polygon id="zone-green" points="" fill="#22cb5c" />
 
-                    <line x1="50" y1="20" x2="50" y2="250" stroke="#333" stroke-width="1" />
-                    <line x1="50" y1="250" x2="420" y2="250" stroke="#333" stroke-width="1" />
+    <path id="curve-path" d="" fill="none" stroke="black" stroke-width="2" />
 
-                    <text x="50" y="270" font-size="10" text-anchor="middle">0</text>
-                    <text x="90" y="270" font-size="10" text-anchor="middle">30</text>
-                    <text x="130" y="270" font-size="10" text-anchor="middle">60</text>
-                    <text x="250" y="270" font-size="10" text-anchor="middle">150</text>
-                    <text x="420" y="270" font-size="10" text-anchor="middle">300</text>
-                    <text x="235" y="295" font-size="11" font-weight="bold" text-anchor="middle">MINUTES PER WEEK</text>
-                    <text x="45" y="25" font-size="10" text-anchor="end">Higher: 1</text>
-                    <text x="45" y="245" font-size="10" text-anchor="end">Lower: 0.77</text>
+    <line x1="50" y1="20" x2="50" y2="250" stroke="#333" stroke-width="1" />
+    <line x1="50" y1="250" x2="420" y2="250" stroke="#333" stroke-width="1" />
 
-                    <g id="user-marker" style="visibility: hidden;">
-                        <line id="user-line" x1="0" y1="0" x2="0" y2="250" stroke="black" stroke-dasharray="4" />
-                        <circle id="user-dot" cx="0" cy="0" r="5" fill="black" />
-                        <text id="user-tag" x="0" y="0" font-weight="bold" text-anchor="middle">YOU</text>
-                    </g>
-                </svg>
+    <text x="50" y="270" font-size="10" text-anchor="middle">0</text>
+    <text x="87" y="270" font-size="10" text-anchor="middle">30</text>
+    <text x="124" y="270" font-size="10" text-anchor="middle">60</text>
+    <text x="235" y="270" font-size="10" text-anchor="middle">150</text>
+    <text x="420" y="270" font-size="10" text-anchor="middle">300</text>
+    <text x="235" y="295" font-size="11" font-weight="bold" text-anchor="middle">MINUTES PER WEEK</text>
+    <text x="45" y="25" font-size="10" text-anchor="end">Higher: 1</text>
+    <text x="45" y="245" font-size="10" text-anchor="end">Lower: 0.77</text>
+
+    <g id="user-marker" style="visibility: hidden;">
+        <line id="user-line" x1="0" y1="0" x2="0" y2="250" stroke="black" stroke-dasharray="4" />
+        <circle id="user-dot" cx="0" cy="0" r="5" fill="black" />
+        <text id="user-tag" x="0" y="0" font-weight="bold" text-anchor="middle">YOU</text>
+    </g>
+</svg>
             </div>
         </div>
         <button class="btn-restart" onclick="location.reload()">START AGAIN</button>
@@ -238,60 +238,80 @@
 </div>
 
 <script>
-    function calculate() {
-        const d = parseInt(document.getElementById('days').value) || 0;
-        const m = parseInt(document.getElementById('mins').value) || 0;
-        const totalRaw = d * m;
-        const total = Math.min(totalRaw, 300); // For graph scale only
+   function calculate() {
+    const d = parseInt(document.getElementById('days').value) || 0;
+    const m = parseInt(document.getElementById('mins').value) || 0;
+    const totalRaw = d * m;
+    const total = Math.min(totalRaw, 300);
 
-        // 1. Show Results Page
-        document.getElementById('input-section').style.display = 'none';
-        document.getElementById('results-section').style.display = 'block';
+    document.getElementById('input-section').style.display = 'none';
+    document.getElementById('results-section').style.display = 'block';
 
-        // 2. Traffic Light & Feedback
-        document.querySelectorAll('.light').forEach(l => l.classList.remove('active'));
-        const title = document.getElementById('status-title');
-        const desc = document.getElementById('status-desc');
+    document.querySelectorAll('.light').forEach(l => l.classList.remove('active'));
+    const title = document.getElementById('status-title');
+    const desc = document.getElementById('status-desc');
 
-        if (totalRaw >= 150) {
-            document.getElementById('l-green').classList.add('active');
-            title.innerText = "Active. Well done.";
-            desc.innerText = "Maintaining this level of activity is really important.";
-        } else if (totalRaw >= 30) {
-            document.getElementById('l-yellow').classList.add('active');
-            title.innerText = "Keep it up.";
-            desc.innerText = "You're making progress. Try to reach 150 minutes for full benefits.";
-        } else {
-            document.getElementById('l-red').classList.add('active');
-            title.innerText = "Start Small.";
-            desc.innerText = "Just 30 minutes of physical activity a week can make a huge difference.";
+    if (totalRaw >= 150) {
+        document.getElementById('l-green').classList.add('active');
+        title.innerText = "Active. Well done.";
+        desc.innerText = "Maintaining this level of activity is really important.";
+    } else if (totalRaw >= 30) {
+        document.getElementById('l-yellow').classList.add('active');
+        title.innerText = "Keep it up.";
+        desc.innerText = "You're making progress. Try to reach 150 minutes for full benefits.";
+    } else {
+        document.getElementById('l-red').classList.add('active');
+        title.innerText = "Start Small.";
+        desc.innerText = "Just 30 minutes of physical activity a week can make a huge difference.";
+    }
+
+    const k = -Math.log(0.77) / Math.sqrt(300);
+
+    const xMin = 50, xMax = 420;
+    const yTop = 20, yBottom = 250;
+    const minMax = 300;
+
+    function toX(mins) {
+        return xMin + (mins / minMax) * (xMax - xMin);
+    }
+    function toY(mins) {
+        const rr = Math.exp(-k * Math.sqrt(mins));
+        return yTop + ((1 - rr) / (1 - 0.77)) * (yBottom - yTop);
+    }
+
+    function curvePoints(from, to, steps) {
+        let pts = [];
+        for (let i = 0; i <= steps; i++) {
+            const mins = from + (to - from) * i / steps;
+            pts.push(`${toX(mins)},${toY(mins)}`);
         }
+        return pts;
+    }
 
-        // 3. YOUR FORMULA: RR = e^(-0.0213 * sqrt(minutes))
-const k = -Math.log(0.77) / Math.sqrt(300);
-const rr = Math.exp(-k * Math.sqrt(total));
-        
-        // 4. MAPPING TO SVG PIXELS
-        // X-axis: 0-300 mins maps to 50-420 pixels
-        let xPos = 50 + (total / 300) * (420 - 50);
-        // Y-axis: RR 1.0-0.77 maps to 20-250 pixels
-        let yPos = 20 + ((1 - rr) / (1 - 0.77)) * (250 - 20);
+    function zonePolygon(from, to) {
+        const top = curvePoints(from, to, 50);
+        return [...top, `${toX(to)},${yBottom}`, `${toX(from)},${yBottom}`].join(' ');
+    }
 
-        // 5. UPDATE MARKER (The "Stick")
-        const marker = document.getElementById('user-marker');
-        marker.style.visibility = 'visible';
+    document.getElementById('zone-red').setAttribute('points', zonePolygon(0, 30));
+    document.getElementById('zone-yellow').setAttribute('points', zonePolygon(30, 150));
+    document.getElementById('zone-green').setAttribute('points', zonePolygon(150, 300));
 
-        document.getElementById('user-dot').setAttribute('cx', xPos);
-        document.getElementById('user-dot').setAttribute('cy', yPos);
+    const allPts = curvePoints(0, 300, 200);
+    const pathD = 'M ' + allPts.map((p, i) => (i === 0 ? p : 'L ' + p)).join(' ');
+    document.getElementById('curve-path').setAttribute('d', pathD);
 
-        document.getElementById('user-line').setAttribute('x1', xPos);
-        document.getElementById('user-line').setAttribute('x2', xPos);
-        document.getElementById('user-line').setAttribute('y1', yPos);
-        document.getElementById('user-line').setAttribute('y2', 250);
-
-        const tag = document.getElementById('user-tag');
-        tag.setAttribute('x', xPos);
-        tag.setAttribute('y', yPos - 15);
+    const ux = toX(total);
+    const uy = toY(total);
+    document.getElementById('user-marker').style.visibility = 'visible';
+    document.getElementById('user-dot').setAttribute('cx', ux);
+    document.getElementById('user-dot').setAttribute('cy', uy);
+    document.getElementById('user-line').setAttribute('x1', ux);
+    document.getElementById('user-line').setAttribute('x2', ux);
+    document.getElementById('user-line').setAttribute('y1', uy);
+    document.getElementById('user-line').setAttribute('y2', yBottom);
+    document.getElementById('user-tag').setAttribute('x', ux);
+    document.getElementById('user-tag').setAttribute('y', uy - 15);
     }
 </script>
 
