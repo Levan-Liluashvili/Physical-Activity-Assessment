@@ -14,8 +14,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             background-color: #ffffff;
             color: #333;
         }
@@ -27,16 +26,8 @@
             box-shadow: 0 2px 15px rgba(0,0,0,0.05);
         }
 
-        header {
-            padding: 20px 40px;
-        }
-
-        header h1 {
-            font-weight: 400;
-            margin: 0;
-            font-size: 2.2rem;
-            text-align: center;
-        }
+        header { padding: 20px 40px; text-align: center; }
+        header h1 { font-weight: 400; margin: 0; font-size: 2.2rem; }
 
         #input-section {
             background-color: var(--dark-bg);
@@ -45,151 +36,75 @@
         }
 
         .input-grid {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-bottom: 30px;
+            display: flex; justify-content: space-around;
+            flex-wrap: wrap; gap: 30px; margin-bottom: 30px;
         }
 
-        .input-box {
-            display: flex;
-            align-items: center;
-            max-width: 400px;
-        }
-
-        .q-num {
-            color: var(--teal);
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-right: 10px;
-        }
-
-        .q-text {
-            font-size: 0.95rem;
-            line-height: 1.4;
-            margin-right: 15px;
-            color: #eeeeee;
-        }
+        .input-box { display: flex; align-items: center; max-width: 400px; }
+        .q-num { color: var(--teal); font-weight: bold; font-size: 1.1rem; margin-right: 10px; }
+        .q-text { font-size: 0.95rem; line-height: 1.4; margin-right: 15px; color: #eeeeee; }
 
         input[type="number"] {
-            width: 55px;
-            height: 40px;
-            font-size: 1.2rem;
-            text-align: center;
-            border: none;
-            border-radius: 2px;
-            margin-right: 8px;
+            width: 60px; height: 40px; font-size: 1.2rem;
+            text-align: center; border: none; border-radius: 2px;
         }
 
         .btn-main {
             background-color: var(--teal);
-            color: white;
-            border: none;
-            padding: 12px 40px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.2s;
+            color: white; border: none; padding: 12px 40px;
+            font-weight: bold; font-size: 1rem; cursor: pointer;
         }
 
         #results-section {
-            display: none;
-            background-color: var(--light-bg);
-            padding: 40px;
-            animation: fadeIn 0.5s ease-in;
+            display: none; background-color: var(--light-bg);
+            padding: 40px; animation: fadeIn 0.5s ease-in;
         }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .results-flex {
-            display: flex;
-            flex-direction: row;
-            gap: 40px;
-            align-items: flex-start;
-        }
-
-        .feedback-column {
-            flex: 1;
-            display: flex;
-            gap: 20px;
-        }
-
+        .results-flex { display: flex; gap: 40px; align-items: flex-start; }
+        .feedback-column { flex: 1; display: flex; gap: 20px; }
         .traffic-light-box {
-            width: 50px;
-            height: 130px;
-            background-color: #222;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-around;
-            padding: 10px 0;
-            flex-shrink: 0;
+            width: 50px; height: 130px; background-color: #222;
+            border-radius: 8px; display: flex; flex-direction: column;
+            align-items: center; justify-content: space-around; padding: 10px 0;
         }
 
-        .light {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: #444;
-        }
-
+        .light { width: 32px; height: 32px; border-radius: 50%; background-color: #444; }
         .light.red.active { background-color: #ff3c3c; box-shadow: 0 0 15px #ff3c3c; }
         .light.yellow.active { background-color: #ffca28; box-shadow: 0 0 15px #ffca28; }
         .light.green.active { background-color: #22cb5c; box-shadow: 0 0 15px #22cb5c; }
 
         .graph-column {
-            flex: 1.5;
-            background: white;
-            padding: 20px;
-            border-radius: 4px;
-            border: 1px solid #eee;
+            flex: 1.5; background: white; padding: 20px;
+            border-radius: 4px; border: 1px solid #eee;
         }
 
-        svg {
-            width: 100%;
-            height: auto;
-        }
+        svg { width: 100%; height: auto; }
+        .btn-restart { margin-top: 30px; background-color: var(--teal); color: white; border: none; padding: 10px 25px; cursor: pointer; font-weight: bold; }
 
-        .btn-restart {
-            margin-top: 30px;
-            background-color: var(--teal);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        @media (max-width: 768px) {
-            .results-flex { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .results-flex { flex-direction: column; } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header>
-        <h1>Physical Activity Assessment - Activity Calculator</h1>
-    </header>
+    <header><h1>Physical Activity Assessment</h1></header>
 
     <div id="input-section">
         <div class="input-grid">
             <div class="input-box">
                 <span class="q-num">Q1</span>
-                <span class="q-text">On average, how many days each week do you do moderate or greater physical activity?</span>
+                <span class="q-text">Average days per week of moderate activity?</span>
                 <input type="number" id="days" value="5" min="0" max="7">
             </div>
             <div class="input-box">
                 <span class="q-num">Q2</span>
-                <span class="q-text">On those days, on average how many minutes do you do this physical activity for?</span>
+                <span class="q-text">Average minutes per session?</span>
                 <input type="number" id="mins" value="30" min="0">
             </div>
         </div>
-        <div class="btn-container" style="text-align: center;">
-            <button class="btn-main" onclick="calculate()">GET RESULTS</button>
-        </div>
+        <div style="text-align: center;"><button class="btn-main" onclick="calculate()">GET RESULTS</button></div>
     </div>
 
     <div id="results-section">
@@ -208,11 +123,9 @@
 
             <div class="graph-column">
                 <svg viewBox="0 0 450 300">
-                    <polygon id="zone-red" points="" fill="#ff7f7f" />
-                    <polygon id="zone-yellow" points="" fill="#ffca28" />
-                    <polygon id="zone-green" points="" fill="#22cb5c" />
-
-                    <path id="curve-path" d="" fill="none" stroke="black" stroke-width="3" />
+                    <polygon id="zone-red" points="" fill="#ff5e7e" />
+                    <polygon id="zone-yellow" points="" fill="#ffc107" />
+                    <polygon id="zone-green" points="" fill="#28a745" />
 
                     <line x1="50" y1="20" x2="50" y2="250" stroke="#333" stroke-width="1.5" />
                     <line x1="50" y1="250" x2="420" y2="250" stroke="#333" stroke-width="1.5" />
@@ -229,8 +142,8 @@
                     <text x="25" y="135" font-size="11" font-weight="bold" transform="rotate(-90 25,135)" text-anchor="middle">RELATIVE RISK</text>
 
                     <g id="user-marker" style="visibility: hidden;">
-                        <line id="user-line" x1="0" y1="0" x2="0" y2="250" stroke="black" stroke-width="1.5" stroke-dasharray="4" />
-                        <circle id="user-dot" cx="0" cy="0" r="6" fill="black" />
+                        <line id="user-line" x1="0" y1="0" x2="0" y2="250" stroke="black" stroke-width="1.5" stroke-dasharray="3" />
+                        <circle id="user-dot" cx="0" cy="0" r="5" fill="black" />
                         <text id="user-tag" x="0" y="0" font-weight="bold" text-anchor="middle" font-size="12">YOU</text>
                     </g>
                 </svg>
@@ -247,11 +160,10 @@
         const totalRaw = d * m;
         const total = Math.min(totalRaw, 300);
 
-        // UI Switch
         document.getElementById('input-section').style.display = 'none';
         document.getElementById('results-section').style.display = 'block';
 
-        // Traffic Light Logic
+        // Traffic Lights
         document.querySelectorAll('.light').forEach(l => l.classList.remove('active'));
         const title = document.getElementById('status-title');
         const desc = document.getElementById('status-desc');
@@ -267,69 +179,64 @@
         } else {
             document.getElementById('l-red').classList.add('active');
             title.innerText = "Start Small.";
-            desc.innerText = "Just 30 minutes of physical activity a week can make a huge difference.";
+            desc.innerText = "Just 30 minutes of activity a week can make a huge difference.";
         }
 
-        // CONSTANTS BASED ON HAMER & CHIDA (2008)
-        // Calculating 'k' so that RR = 0.77 at 300 minutes
-        const targetRR = 0.77;
-        const k = -Math.log(targetRR) / Math.sqrt(300);
-
+        // --- FORMULA AND GRAPH LOGIC ---
+        const k = 0.0213; // Your requested constant
         const xMin = 50, xMax = 420;
         const yTop = 20, yBottom = 250;
         const minScale = 300;
 
-        function toX(mins) {
-            return xMin + (mins / minScale) * (xMax - xMin);
-        }
-        function toY(mins) {
-            const rr = Math.exp(-k * Math.sqrt(mins));
+        // Map Minutes to RR based on the formula, then map RR to pixels
+        function getRR(mins) { return Math.exp(-k * Math.sqrt(mins)); }
+        function toX(mins) { return xMin + (mins / minScale) * (xMax - xMin); }
+        function toY(mins) { 
+            const rr = getRR(mins);
             // Map RR 1.0 -> yTop(20) and RR 0.77 -> yBottom(250)
-            return yTop + ((1 - rr) / (1 - targetRR)) * (yBottom - yTop);
+            return yTop + ((1 - rr) / (1 - 0.77)) * (yBottom - yTop);
         }
 
-        // Drawing Helper for smooth curve zones
-        function curvePoints(from, to, steps) {
-            let pts = [];
-            for (let i = 0; i <= steps; i++) {
-                const mins = from + (to - from) * (i / steps);
-                pts.push(`${toX(mins)},${toY(mins)}`);
-            }
-            return pts;
+        // Define the Sharp Breakpoints (from your design)
+        const breakpoints = [0, 30, 60, 150, 300];
+        const pts = breakpoints.map(m => ({x: toX(m), y: toY(m)}));
+
+        // Build Sharp Polygons
+        function buildPolygon(startIdx, endIdx) {
+            let poly = "";
+            for(let i=startIdx; i<=endIdx; i++) poly += `${pts[i].x},${pts[i].y} `;
+            poly += `${pts[endIdx].x},${yBottom} ${pts[startIdx].x},${yBottom}`;
+            return poly;
         }
 
-        function zonePolygon(from, to) {
-            const topPoints = curvePoints(from, to, 40);
-            const bottomLine = `${toX(to)},${yBottom} ${toX(from)},${yBottom}`;
-            return topPoints.join(' ') + ' ' + bottomLine;
-        }
+        document.getElementById('zone-red').setAttribute('points', buildPolygon(0, 1));
+        document.getElementById('zone-yellow').setAttribute('points', buildPolygon(1, 3));
+        document.getElementById('zone-green').setAttribute('points', buildPolygon(3, 4));
 
-        // Apply Polygons
-        document.getElementById('zone-red').setAttribute('points', zonePolygon(0, 30));
-        document.getElementById('zone-yellow').setAttribute('points', zonePolygon(30, 150));
-        document.getElementById('zone-green').setAttribute('points', zonePolygon(150, 300));
-
-        // Draw the full trend line
-        const fullCurve = curvePoints(0, 300, 100);
-        document.getElementById('curve-path').setAttribute('d', 'M ' + fullCurve.join(' L '));
-
-        // Position User Marker
+        // --- USER STICK LOGIC ---
+        // To make it "stick" to the sharp visual line, we interpolate between breakpoints
+        let userY;
         const ux = toX(total);
-        const uy = toY(total);
+        
+        // Find which segment the user's time falls into for visual alignment
+        for (let i = 0; i < breakpoints.length - 1; i++) {
+            if (total >= breakpoints[i] && total <= breakpoints[i+1]) {
+                const t = (total - breakpoints[i]) / (breakpoints[i+1] - breakpoints[i]);
+                userY = pts[i].y + t * (pts[i+1].y - pts[i].y);
+                break;
+            }
+        }
+
         const marker = document.getElementById('user-marker');
         marker.style.visibility = 'visible';
-
         document.getElementById('user-dot').setAttribute('cx', ux);
-        document.getElementById('user-dot').setAttribute('cy', uy);
+        document.getElementById('user-dot').setAttribute('cy', userY);
         document.getElementById('user-line').setAttribute('x1', ux);
         document.getElementById('user-line').setAttribute('x2', ux);
-        document.getElementById('user-line').setAttribute('y1', uy);
-        document.getElementById('user-line').setAttribute('y2', yBottom);
-        
+        document.getElementById('user-line').setAttribute('y1', userY);
         document.getElementById('user-tag').setAttribute('x', ux);
-        document.getElementById('user-tag').setAttribute('y', uy - 18);
+        document.getElementById('user-tag').setAttribute('y', userY - 15);
     }
 </script>
-
 </body>
 </html>
