@@ -268,8 +268,9 @@
         }
 
         // 3. YOUR FORMULA: RR = e^(-0.0213 * sqrt(minutes))
-        const rr = Math.exp(-0.0213 * Math.sqrt(total));
-
+const k = -Math.log(0.77) / Math.sqrt(300);
+const rr = Math.exp(-k * Math.sqrt(total));
+        
         // 4. MAPPING TO SVG PIXELS
         // X-axis: 0-300 mins maps to 50-420 pixels
         let xPos = 50 + (total / 300) * (420 - 50);
