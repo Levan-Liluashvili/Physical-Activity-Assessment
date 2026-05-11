@@ -212,7 +212,6 @@
                     <polygon id="zone-yellow" points="" fill="#ffca28" />
                     <polygon id="zone-green" points="" fill="#22cb5c" />
 
-                    <path id="curve-path" d="" fill="none" stroke="black" stroke-width="3" />
 
                     <line x1="50" y1="20" x2="50" y2="250" stroke="#333" stroke-width="1.5" />
                     <line x1="50" y1="250" x2="420" y2="250" stroke="#333" stroke-width="1.5" />
@@ -311,7 +310,6 @@
 
         // Draw the full trend line
         const fullCurve = curvePoints(0, 300, 100);
-        document.getElementById('curve-path').setAttribute('d', 'M ' + fullCurve.join(' L '));
 
         // Position User Marker
         const ux = toX(total);
