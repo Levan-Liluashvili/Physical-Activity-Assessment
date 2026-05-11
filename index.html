@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physical Activity Assessment - Activity Calculator</title>
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+        }
+
+        #calculator-app {
+            background-color: #f4f4f4;
+            max-width: 900px;
+            width: 100%;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden; /* Contains floated elements */
+        }
+
+        h1 {
+            font-weight: 300;
+            padding: 20px 30px;
+            margin: 0;
+            color: #333;
+        }
+
+        h1 a {
+            color: #0162a8;
+            text-decoration: underline;
+        }
+
+        /* --- Input Section --- */
+        #input-section {
+            background-color: #333;
+            color: white;
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 40px;
+            position: relative;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+        }
+
+        .question {
+            color: #ccc;
+            flex: 1;
+            margin-right: 15px;
+        }
+
+        .question-num {
+            color: #01aef0; /* Teal number */
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 40px;
+            padding: 8px;
+            border: none;
+            background-color: white;
+            color: #333;
+            font-size: 1.1em;
+            text-align: center;
+            margin-right: 10px;
+        }
+
+        .unit {
+            color: #aaa;
+        }
+
+        button {
+            background-color: #01aef0; /* Teal button */
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            text-transform: uppercase;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #0294ca;
+        }
+
+        #get-results-container {
+            grid-column: span 2;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* --- Results Section --- */
+        #results-section {
+            padding: 30px;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-wrap: wrap;
+            display: none; /* Initially hidden */
+        }
+
+        #feedback-panel {
+            flex: 1 1 300px;
+            display: flex;
+            align-items: flex-start;
+            padding-right: 30px;
+        }
+
+        /* Traffic Light */
+        #traffic-light {
+            width: 40px;
+            height: 100px;
+            background-color: #222;
+            border-radius: 5px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-right: 15px;
+        }
+
+        .light {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #444; /* Dim color */
+        }
+
+        /* Define lit colors */
+        .light.red-on    { background-color: #ff3c3c; box-shadow: 0 0 10px #ff3c3c; }
+        .light.yellow-on { background-color: #ffca28; box-shadow: 0 0 10px #ffca28; }
+        .light.green-on  { background-color: #22cb5c; box-shadow: 0 0 10px #22cb5c; }
+
+        #text-content {
+            flex: 1;
+        }
+
+        #feedback-text {
+            color: #333;
+            margin: 0 0 20px 0;
+            line-height: 1.4;
+        }
+
+        #explanatory-text {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        #start-again-container {
+            width: 100%;
+            padding-top: 20px;
+            text-align: left;
+        }
+
+        /* --- Graph Panel --- */
+        #graph-panel {
+            flex: 1 1 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        svg {
+            width: 100%;
+            height: auto;
+            max-width: 500px;
+        }
+
+        /* SVG styling classes */
+        .axis line { stroke: #666; stroke-width: 1; }
+        .tick text { fill: #333; font-size: 10px; font-weight: bold;}
+        .label { fill: #333; font-size: 10px; font-weight: bold; }
+        .axis-name { font-size: 10px; font-weight: bold;}
+
+        /* Risk Curve Line */
+        .risk-line { stroke: black; stroke-width: 1.5; fill: none; }
+
+        /* 'YOU' marker components */
+        #you-marker-line { stroke: black; stroke-width: 1.5; stroke-dasharray: 4,4; }
+        #you-marker-point { fill: black; }
+        #you-marker-label { fill: black; font-weight: bold; font-size: 12px;}
+
+        /* --- Footer (For Attribution) --- */
+        footer {
+            width: 100%;
+            text-align: center;
+            color: #888;
+            font-size: 0.8em;
+            padding: 10px 0;
+            border-top: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+<div id="calculator-app">
+    <h1>Physical Activity Assessment - <a href="#">Activity Calculator:</a></h1>
+
+    <div id="input-section">
+        <div class="input-group">
+            <span class="question"><span class="question-num">Q1</span> On average, how many days each week do you do moderate or greater physical activity (like a brisk walk)?</span>
+            <input type="number" id="days-input" min="0" max="7" value="5">
+            <span class="unit">days</span>
+        </div>
+        <div class="input-group">
+            <span class="question"><span class="question-num">Q2</span> On those days, on average how many minutes do you do this physical activity for?</span>
+            <input type="number" id="mins-input" min="0" step="1" value="30">
+            <span class="unit">mins</span>
+        </div>
+        <div id="get-results-container">
+            <button id="get-results">GET RESULTS</button>
+        </div>
+    </div>
+
+    <div id="results-section">
+        <div id="feedback-panel">
+            <div id="traffic-light">
+                <div class="light" id="light-red"></div>
+                <div class="light" id="light-yellow"></div>
+                <div class="light" id="light-green"></div>
+            </div>
+            <div id="text-content">
+                <p id="feedback-text"></p>
+                <p id="explanatory-text">Explain that just 30 minutes physical activity in one week can make a huge difference to their health.</p>
+            </div>
+        </div>
+
+        <div id="graph-panel">
+            <svg viewBox="0 0 450 350" preserveAspectRatio="xMidYMid meet">
+                <path d="M 50,20 L 50,280 L 89,280 L 89,215.3 L 50,20 Z" fill="#ff7f7f" />
+                <path d="M 89,215.3 L 89,280 L 243,280 L 243,280 L 128,260 L 89,215.3 Z" fill="#ffca28" />
+                <path d="M 243,280 L 243,280 L 410,280 L 410,280 L 243,280 Z" fill="#22cb5c" />
+
+                <path class="risk-line" d="M 50,20 C 80,180 120,240 243,280 L 410,280" />
+
+                <g class="axis x-axis">
+                    <line x1="50" y1="280" x2="410" y2="280" />
+                    <g class="tick" transform="translate(50, 280)"><line y2="5"/><text y="15" text-anchor="middle">0</text></g>
+                    <g class="tick" transform="translate(89, 280)"><line y2="5"/><text y="15" text-anchor="middle">30</text></g>
+                    <g class="tick" transform="translate(128, 280)"><line y2="5"/><text y="15" text-anchor="middle">60</text></g>
+                    <g class="tick" transform="translate(243, 280)"><line y2="5"/><text y="15" text-anchor="middle">150</text></g>
+                    <g class="tick" transform="translate(410, 280)"><line y2="5"/><text y="15" text-anchor="middle">300</text></g>
+                    <text x="230" y="310" text-anchor="middle" class="axis-name">MINUTES PER WEEK</text>
+                </g>
+                <g class="axis y-axis">
+                    <line x1="50" y1="20" x2="50" y2="280" />
+                    <text x="30" y="25" text-anchor="middle" class="axis-name">Higher:<br>1</text>
+                    <text x="30" y="275" text-anchor="middle" class="axis-name">Lower:<br>0.77</text>
+                    <text x="20" y="150" transform="rotate(-90 20 150)" text-anchor="middle" class="axis-name">RELATIVE<br>RISK</text>
+                </g>
+
+                <g id="you-marker" display="none">
+                    <line id="you-marker-line" x1="0" y1="0" x2="0" y2="280" />
+                    <circle id="you-marker-point" cx="0" cy="0" r="4" />
+                    <text id="you-marker-label" x="0" y="0" text-anchor="middle">YOU</text>
+                </g>
+            </svg>
+        </div>
+
+        <div id="start-again-container">
+            <button id="start-again">START AGAIN</button>
+        </div>
+    </div>
+</div>
+
+<footer>A tool provided for Physical Activity Assessment.</footer>
+
+<script>
+    // --- Elements ---
+    const daysInput = document.getElementById('days-input');
+    const minsInput = document.getElementById('mins-input');
+    const getResultsBtn = document.getElementById('get-results');
+    const startAgainBtn = document.getElementById('start-again');
+
+    const inputSection = document.getElementById('input-section');
+    const resultsSection = document.getElementById('results-section');
+
+    const feedbackText = document.getElementById('feedback-text');
+    const lightRed = document.getElementById('light-red');
+    const lightYellow = document.getElementById('light-yellow');
+    const lightGreen = document.getElementById('light-green');
+
+    // SVG elements
+    const youMarker = document.getElementById('you-marker');
+    const youLine = document.getElementById('you-marker-line');
+    const youPoint = document.getElementById('you-marker-point');
+    const youLabel = document.getElementById('you-marker-label');
+
+    // --- Graph and Data Configuration ---
+    // Mapping of minutes (x) to relative risk (y). Based on the provided graph image.
+    // X range: 0 to 300, capped. Y range: 1.0 (higher) to 0.77 (lower).
+    // The points we are interpolating between for the 'YOU' marker position.
+    const graphData = [
+        { x: 0, y: 1.0 },
+        { x: 30, y: 0.85 },
+        { x: 60, y: 0.80 },
+        { x: 150, y: 0.77 },
+        { x: 300, y: 0.77 }
+    ];
+
+    // Map min/max data points to SVG coordinate space
+    const xMap = { in: [0, 300], out: [50, 410] };
+    const yMap = { in: [0.77, 1.0], out: [280, 20] };
+
+    // Function to calculate linear interpolation between two points
+    function interpolate(x, x0, y0, x1, y1) {
+        return y0 + (x - x0) * (y1 - y0) / (x1 - x0);
+    }
+
+    // Function to get the SVG 'y' coordinate for a given 'totalMinutes' (x)
+    function getYOnLine(totalMins) {
+        const xVal = Math.max(0, Math.min(300, totalMins));
+
+        for (let i = 0; i < graphData.length - 1; i++) {
+            if (xVal >= graphData[i].x && xVal <= graphData[i + 1].x) {
+                const yRelRisk = interpolate(xVal, graphData[i].x, graphData[i].y, graphData[i + 1].x, graphData[i + 1].y);
+                return interpolate(yRelRisk, yMap.in[0], yMap.out[0], yMap.in[1], yMap.out[1]);
+            }
+        }
+        return yMap.out[0]; // Default to lowest point
+    }
+
+    // Function to get the SVG 'x' coordinate for a given 'totalMinutes'
+    function getXOnLine(totalMins) {
+        const xVal = Math.max(0, Math.min(300, totalMins));
+        return interpolate(xVal, xMap.in[0], xMap.out[0], xMap.in[1], xMap.out[1]);
+    }
+
+    // --- Main Logic ---
+
+    function showResults() {
+        // 1. Calculate
+        const days = parseInt(daysInput.value) || 0;
+        const mins = parseInt(minsInput.value) || 0;
+        const totalMinutesPerWeek = days * mins;
+
+        // 2. Clear previous state
+        inputSection.style.display = 'none';
+        resultsSection.style.display = 'flex';
+        lightRed.classList.remove('red-on');
+        lightYellow.classList.remove('yellow-on');
+        lightGreen.classList.remove('green-on');
+
+        let feedback;
+
+        // 3. Set state based on results
+        if (totalMinutesPerWeek >= 150) {
+            lightGreen.classList.add('green-on');
+            feedback = "<strong>Active. Well done.</strong><br>Maintaining this level of activity is really important.";
+        } else if (totalMinutesPerWeek >= 30) {
+            lightYellow.classList.add('yellow-on');
+            feedback = "<strong>Keep it up. You're making progress.</strong><br>Try to increase your activity to 150 minutes per week for maximum health benefits.";
+        } else {
+            lightRed.classList.add('red-on');
+            feedback = "<strong>A little goes a long way.</strong><br>Every bit of activity counts. Start small and try to build up your weekly minutes.";
+        }
+
+        // Update feedback text
+        feedbackText.innerHTML = feedback;
+
+        // 4. Update the Graph Marker
+        const svgX = getXOnLine(totalMinutesPerWeek);
+        const svgY = getYOnLine(totalMinutesPerWeek);
+
+        youMarker.setAttribute('display', 'block');
+        youMarker.setAttribute('transform', `translate(${svgX}, 0)`); // Move the whole group
+        
+        youLabel.setAttribute('x', 0); // Relative to group
+        youLabel.setAttribute('y', 10); // Placed above the point
+        
+        youLine.setAttribute('x1', 0); // Vertical relative to group
+        youLine.setAttribute('y1', 0);
+        youLine.setAttribute('x2', 0);
+        youLine.setAttribute('y2', 280);
+
+        youPoint.setAttribute('cx', 0); // Relative to group
+        youPoint.setAttribute('cy', svgY);
+    }
+
+    function resetApp() {
+        resultsSection.style.display = 'none';
+        inputSection.style.display = 'grid';
+        daysInput.value = '5';
+        minsInput.value = '30';
+        youMarker.setAttribute('display', 'none');
+    }
+
+    // --- Event Listeners ---
+    getResultsBtn.addEventListener('click', showResults);
+    startAgainBtn.addEventListener('click', resetApp);
+</script>
+
+</body>
+</html>
