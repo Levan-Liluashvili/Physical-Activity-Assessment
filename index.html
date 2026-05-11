@@ -254,7 +254,7 @@
 
             <div class="graph-column">
 
-                <svg viewBox="0 0 520 220">
+                <svg viewBox="0 0 520 320">
 
                     <!-- COLORED ZONES -->
                     <polygon id="zone-red" points="" fill="#ff4f7b"/>
@@ -262,18 +262,18 @@
                     <polygon id="zone-green" points="" fill="#32c266"/>
 
                     <!-- AXES -->
-                    <line x1="70" y1="25" x2="70" y2="170"/>
+                    <line x1="70" y1="20" x2="70" y2="260"
                           stroke="#222" stroke-width="2"/>
 
-                    <line x1="70" y1="170" x2="470" y2="170"/>
+                    <line x1="70" y1="260" x2="470" y2="260"
                           stroke="#222" stroke-width="2"/>
 
                     <!-- LABELS -->
-                    <text x="70" y="195" font-size="12" text-anchor="middle">0</text>
-                    <text x="110" y="195" font-size="12" text-anchor="middle">30</text>
-                    <text x="150" y="195" font-size="12" text-anchor="middle">60</text>
-                    <text x="270" y="195" font-size="12" text-anchor="middle">150</text>
-                    <text x="470" y="195" font-size="12" text-anchor="middle">300</text>
+                    <text x="70" y="285" font-size="12" text-anchor="middle">0</text>
+                    <text x="110" y="285" font-size="12" text-anchor="middle">30</text>
+                    <text x="150" y="285" font-size="12" text-anchor="middle">60</text>
+                    <text x="270" y="285" font-size="12" text-anchor="middle">150</text>
+                    <text x="470" y="285" font-size="12" text-anchor="middle">300</text>
 
                     <text x="270" y="310"
                           font-size="14"
@@ -421,7 +421,7 @@ function calculate(){
     const xMax = 470;
 
     const yTop = 20;
-    const yBottom = 170;
+    const yBottom = 260;
 
     function toX(mins){
         return xMin + (mins / 300) * (xMax - xMin);
@@ -431,11 +431,11 @@ function calculate(){
     function toY(mins){
 
         const points = [
-    { x:0,   y:25 },
-    { x:30,  y:75 },
-    { x:60,  y:115 },
-    { x:300, y:170 }
-];
+            { x:0,   y:20 },
+            { x:30,  y:95 },
+            { x:60,  y:150 },
+            { x:300, y:260 }
+        ];
 
         for(let i=0;i<points.length-1;i++){
 
