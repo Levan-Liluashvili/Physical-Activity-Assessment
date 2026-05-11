@@ -278,9 +278,18 @@
         const yTop = 20, yBottom = 250;
         const minScale = 300;
 
-        function toX(mins) {
-            return xMin + (mins / minScale) * (xMax - xMin);
+        const ticks = [0, 30, 60, 150, 300];
+function toX(mins) {
+    for (let i = 0; i < ticks.length - 1; i++) {
+        if (mins <= ticks[i + 1]) {
+            const segWidth = (xMax - xMin) / (ticks.length - 1);
+            const segStart = xMin + i * segWidth;
+            const t = (mins - ticks[i]) / (ticks[i + 1] - ticks[i]);
+            return segStart + t * segWidth;
         }
+    }
+    return xMax;
+}
         function toY(mins) {
             const rr = Math.exp(-k * Math.sqrt(mins));
             // Map RR 1.0 -> yTop(20) and RR 0.77 -> yBottom(250)
