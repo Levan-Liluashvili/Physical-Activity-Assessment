@@ -313,23 +313,29 @@
         }
 
         // Update Graph Marker
-        const marker = document.getElementById('user-marker');
-        const dot = document.getElementById('user-dot');
-        const line = document.getElementById('user-line');
-        const tag = document.getElementById('user-tag');
+// 1. Calculate the actual Relative Risk using your formula
+const rr = Math.exp(-0.0213 * Math.sqrt(total));
 
-        // Calculate X position (Mapping 0-300 mins to 50-420 SVG units)
-        let xPos = 50 + (Math.min(total, 300) / 300) * (420 - 50);
-        
-        // Simple Y curve approximation
-        let yPos = 250 - (Math.pow(1 - (Math.min(total, 300)/300), 2) * 230);
+// 2. Map Minutes to X position (0-300 mins -> 50-420 pixels)
+let xPos = 50 + (Math.min(total, 300) / 300) * (420 - 50);
 
-        marker.style.visibility = 'visible';
-        dot.setAttribute('cx', xPos);
-        dot.setAttribute('cy', yPos);
-        line.setAttribute('x1', xPos);
-        line.setAttribute('x2', xPos);
-        tag.setAttribute('x', xPos);
+// 3. Map RR to Y position
+// Formula logic: 
+// At RR = 1.0, Y should be 20. 
+// At RR = 0.77, Y should be 250.
+// Pixel Range = 250 - 20 = 230. RR Range = 1.0 - 0.77 = 0.23.
+let yPos = 20 + ((1 - rr) / 0.23) * 230;
+
+// 4. Ensure the dot doesn't go below the graph floor
+if (yPos > 250) yPos = 250;
+
+// Apply to elements
+marker.style.visibility = 'visible';
+dot.setAttribute('cx', xPos);
+dot.setAttribute('cy', yPos);
+line.setAttribute('x1', xPos);
+line.setAttribute('x2', xPos);
+tag.setAttribute('x', xPos);
     }
 </script>
 
